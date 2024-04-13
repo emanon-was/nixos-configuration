@@ -6,35 +6,47 @@
 {
   imports =
     [ <nixpkgs/nixos/modules/installer/scan/not-detected.nix>
-      <nixpkgs/nixos/modules/profiles/qemu-guest.nix>
     ];
 
-  boot.initrd.availableKernelModules = [ "ata_piix" "ohci_pci" "nbd" ];
+
+  boot.initrd.availableKernelModules = [ "xhci_pci" "nvme" "usb_storage" "sr_mod" "rtsx_pci_sdmmc" ];
+  boot.initrd.kernelModules = [ ];
   boot.kernelModules = [ ];
-  boot.extraModulePackages = [ pkgs.nbd ];
-  boot.initrd.kernelModules = [ "nbd" ];
+  boot.extraModulePackages = [ ];
 
-  # fileSystems."/" =
-  #   { device = "/dev/disk/by-uuid/2752fecc-c9f9-48a5-b0e2-e304eb4b7e14";
-  #     fsType = "ext4";
-  #   };
+  fileSystems."/" =
+    { device = "/dev/disk/by-uuid/e2fadb96-4a7e-4d0c-910d-398a1f08d28e";
+      fsType = "xfs";
+    };
 
-  # swapDevices =
-  #   [ { device = "/dev/disk/by-uuid/dbeafdfb-2e54-4baa-bdaf-cb1e290b4600"; }
-  #   ];
+  fileSystems."/boot" =
+    { device = "/dev/disk/by-uuid/1d3bb1fd-0995-48ce-a99f-1bf771e30827";
+      fsType = "ext4";
+    };
 
-  # fileSystems."/media/VBoxFS" = {
-  #   fsType = "vboxsf";
-  #   device = "Environment";
-  #   options = "rw";
-  # };
+  swapDevices =
+    [ { device = "/dev/disk/by-uuid/a44b9c72-b7a3-4205-8137-0fccc26fcaf8"; }
+    ];
 
-  fileSystems."/export/projects" = {
-    device = "/home/fms-dev/Projects";
-    options = [ "bind" ];
+  console = {
+    font = "Lat2-Terminus16";
+    keyMap = "jp106";
   };
 
-  services.nfs.server.enable = true;
-  services.nfs.server.exports = pkgs.lib.readFile /usr/etc/exports;
+  powerManagement.cpuFreqGovernor = lib.mkDefault "powersave";
 
+  hardware.bluetooth.enable = true;
+
+  # Enable sound.
+  # sound.enable = true;
+  # sound.mediaKeys.enable = true;
+  # sound.mediaKeys.volumeStep = "5%";
+
+  hardware.opengl.enable = true;
+
+  # Whether to enable Auto toggle keyboard back-lighting on Thinkpads (and maybe other laptops) for Linux.
+  services.tp-auto-kbbl.enable = false;
+
+  # for VirtualBox
+  # networking.interfaces.enp0s8.ip4 = [ { address = "192.168.56.100"; prefixLength = 24; } ];
 }

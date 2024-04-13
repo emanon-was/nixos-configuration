@@ -1,27 +1,81 @@
-# Edit this configuration file to define what should be installed on
-# your system.  Help is available in the configuration.nix(5) man page
-# and in the NixOS manual (accessible by running ‘nixos-help’).
-
 { config, pkgs, ... }:
 
 {
-  imports =
-    [ # Include the results of the hardware scan.
-    ];
+  # Enable CUPS to print documents.
+  # services.printing.enable = true;
+  nixpkgs.config.allowUnfree = true;
+  nixpkgs.config.allowUnsupportedSystem = true;
 
+  i18n = {
+    defaultLocale = "ja_JP.UTF-8";
+    inputMethod = {
+      enabled = "ibus";
+      ibus.engines = with pkgs.ibus-engines; [ anthy mozc ];
+    };
+  };
+
+  programs.bash.enableCompletion = true;
+  programs.zsh.enable = true;
+  # programs.mtr.enable = true;
+  # programs.gnupg.agent = { enable = true; enableSSHSupport = true; };
+
+
+  # Enable the OpenSSH daemon.
   services.openssh.enable = true;
 
-  services.privoxy.enable = true;
-  services.privoxy.listenAddress = "0.0.0.0:8118";
-  services.privoxy.actionsFiles = [ ];
-  services.privoxy.filterFiles  = [ ];
 
-  virtualisation.docker.enable = true;
+  # Enable the X11 windowing system.
+  services.xserver.enable = true;
+  services.xserver.layout = "jp";
+  services.xserver.xkbModel = "jp106";
+  services.xserver.xkbOptions = "ctrl:nocaps";
 
-  # services.nginx.enable = true;
-  # services.nginx.config = pkgs.lib.readFile /etc/nginx/nginx.conf;
+  # Enable the GNOME Desktop Environment.
+  services.xserver.displayManager.gdm.enable = true;
+  services.xserver.desktopManager.gnome.enable = true;
+  # services.xserver.displayManager.gdm.wayland = false;
+  # services.xserver.autorun = true;
 
-  # services.haproxy.enable = true;
-  # services.haproxy.config = pkgs.lib.readFile /etc/haproxy/haproxy.cfg;
+  # Enable touchpad support.
+  services.xserver.libinput.enable = true;
+  services.xserver.libinput.touchpad.clickMethod = "clickfinger";
+  # services.xserver.cmt.enable = true;
 
+  virtualisation.docker = {
+    enable = true;
+    extraOptions = "--iptables=false --ip-masq=false";
+  };
+
+  environment.systemPackages = with pkgs; [
+    git
+    screen
+    tmux
+    emacs
+    vim
+    wget
+    curl
+    unzip
+    direnv
+    gnumake
+    tree
+    tig
+    xsel
+    ripgrep
+    fd
+    jq
+    rustup
+    awscli
+    s3fs
+    # for GUI
+    gnome.gedit
+    gnome.gnome-tweaks
+    firefox
+    google-chrome
+    slack
+    discord
+    spotify
+  ];
+
+  nixpkgs.config.permittedInsecurePackages = with pkgs; [
+  ];
 }
