@@ -2,11 +2,7 @@
 
 {
   services.openssh.enable = true;
-
-  virtualisation.docker = {
-    enable = true;
-    extraOptions = "--iptables=false --ip-masq=false";
-  };
+  virtualisation.docker.enable = true;
 
   # NFS
   boot.supportedFilesystems = [ "nfs" ];

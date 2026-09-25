@@ -1,6 +1,6 @@
-# tsukumo-pc
+# xps
 
-NixOS-WSL 環境の `/etc/nixos` 設定を管理するブランチです。ブランチ名は `tsukumo-pc`、設定上のホスト名は `wsl` です。
+NixOS-WSL 環境の `/etc/nixos` 設定を管理するブランチです。ブランチ名は `xps`、設定上のホスト名は `wsl` です。
 
 ## 構成
 
@@ -14,7 +14,7 @@ NixOS-WSL 環境の `/etc/nixos` 設定を管理するブランチです。ブ�
 | `shell.nix` | シェルと開発ツールの連携 |
 | `fonts.nix` | GUI 用フォントと Fontconfig |
 
-`system.stateVersion = "25.11"` は互換性基準として保持します。OS の更新先を指定する値ではありません。
+`system.stateVersion = "25.05"` は互換性基準として保持します。OS の更新先を指定する値ではありません。
 
 ## 作業と検証
 

@@ -1,7 +1,6 @@
 { pkgs, ... }:
 
 {
-
   programs = {
     vim = {
       enable = true;
@@ -9,24 +8,19 @@
     };
     nix-ld = {
       enable = true;
+      libraries = with pkgs; [ stdenv.cc.cc zlib openssl curl glib ];
     };
-    bash = {
-      completion.enable = true;
-    };
+    bash.completion.enable = true;
     zsh = {
       enable = true;
       enableCompletion = true;
       enableBashCompletion = true;
     };
     direnv = {
-      package = pkgs.direnv;
+      enable = true;
       silent = false;
       loadInNixShell = true;
-      direnvrcExtra = "";
-      nix-direnv = {
-        enable = true;
-        package = pkgs.nix-direnv;
-      };
+      nix-direnv.enable = true;
     };
   };
 

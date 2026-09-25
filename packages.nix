@@ -3,13 +3,11 @@
 {
   environment.systemPackages = with pkgs; [
     # シェル・エディター・開発環境
-    nix-ld
     home-manager
-    direnv
     git
     screen
     tmux
-    emacs-nox
+    emacs
     vim
 
     # 汎用 CLI
@@ -31,9 +29,11 @@
 
     # 言語処理系
     rustup
+    nodejs_22
 
-    # クラウド・同期・AI
+    # クラウド
     awscli2
     eksctl
+    s3fs
   ];
 }
